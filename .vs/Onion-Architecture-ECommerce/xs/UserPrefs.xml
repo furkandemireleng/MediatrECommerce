@@ -1,0 +1,27 @@
+﻿<Properties StartupConfiguration="{38A792C3-AD39-4656-83DF-932905D9858A}|http">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Onion-Architecture-ECommerce" expanded="True">
+            <Node name="src" expanded="True">
+              <Node name="Infastructure" expanded="True">
+                <Node name="ECommerce.Persistence" expanded="True" selected="True" />
+              </Node>
+              <Node name="Presentation" expanded="True">
+                <Node name="ECommerce.Api" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.src.Presentation.ECommerce.Api PreferredExecutionTarget="/Applications/Opera.app" />
+</Properties>
