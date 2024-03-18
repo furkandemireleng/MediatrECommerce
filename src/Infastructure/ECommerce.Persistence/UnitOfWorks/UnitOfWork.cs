@@ -1,15 +1,43 @@
 using ECommerce.Application.Interfaces.Repositories;
+using ECommerce.Application.Interfaces.Repositories.UnitOfWorks;
 using ECommerce.Domain.Common;
+using ECommerce.Persistence.Context;
+using ECommerce.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Persistence.UnitOfWorks;
 
-public interface IUnitOfWork : IAsyncDisposable
+public class UnitOfWork : IUnitOfWork
 {
-    IReadRepository<T> GetReadRepository<T>() where T : class, IBaseEntity, new();
-    IWriteRepository<T> GetWriteRepository<T>() where T : class, IBaseEntity, new();
+    private readonly ApplicationDbContext applicationDbContext;
 
-    Task<int> SaveAsync();
+    public UnitOfWork(ApplicationDbContext applicationDbContext)
+    {
+        this.applicationDbContext = applicationDbContext;
+    }
 
-    int Save();
+    public async ValueTask DisposeAsync()
+    {
+        await applicationDbContext.DisposeAsync();
+    }
 
+    public IReadRepository<T> GetReadRepository<T>() where T : class, IBaseEntity, new()
+    {
+        return new ReadRepository<T>(applicationDbContext);
+    }
+
+    public IWriteRepository<T> GetWriteRepository<T>() where T : class, IBaseEntity, new()
+    {
+        return new WriteRepository<T>(applicationDbContext);
+    }
+
+    public async Task<int> SaveAsync()
+    {
+        return await applicationDbContext.SaveChangesAsync();
+    }
+
+    public int Save()
+    {
+        return applicationDbContext.SaveChanges();
+    }
 }
