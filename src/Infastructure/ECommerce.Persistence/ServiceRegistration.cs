@@ -23,5 +23,7 @@ public static class ServiceRegistration
         services.AddDbContext<ApplicationDbContext>(opt => opt.UseNpgsql(connectionString));
 
         services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
+        
+        services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
     }
 }
