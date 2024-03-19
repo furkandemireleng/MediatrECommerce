@@ -9,7 +9,7 @@ public class Category : BaseEntity
     public  int Priority { get; set; }
 
     public ICollection<Detail> Details { get; set; } // each category can have multiple details
-    public ICollection<Product> Products { get; set; } // each category can have multiple products
+    public ICollection<ProductCategory> ProductCategoryCategories { get; set; } // each category can have multiple products
 
 
     public Category()
