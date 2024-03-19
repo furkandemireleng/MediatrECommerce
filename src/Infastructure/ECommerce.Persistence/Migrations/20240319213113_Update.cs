@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ECommerce.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Update : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -88,24 +88,24 @@ namespace ECommerce.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoryProduct",
+                name: "ProductCategories",
                 columns: table => new
                 {
-                    CategoriesId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProductsId = table.Column<Guid>(type: "uuid", nullable: false)
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoryProduct", x => new { x.CategoriesId, x.ProductsId });
+                    table.PrimaryKey("PK_ProductCategories", x => new { x.ProductId, x.CategoryId });
                     table.ForeignKey(
-                        name: "FK_CategoryProduct_Categories_CategoriesId",
-                        column: x => x.CategoriesId,
+                        name: "FK_ProductCategories_Categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CategoryProduct_Products_ProductsId",
-                        column: x => x.ProductsId,
+                        name: "FK_ProductCategories_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -114,31 +114,31 @@ namespace ECommerce.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Brands",
                 columns: new[] { "Id", "CreateDate", "IsDelete", "Name" },
-                values: new object[] { new Guid("fd821694-8142-4cee-b9a6-e9ff92b2ff85"), new DateTime(2024, 3, 17, 12, 5, 58, 340, DateTimeKind.Utc).AddTicks(1410), false, "Beauty & Outdoors" });
+                values: new object[] { new Guid("6d7689c4-ace2-4c36-9bf9-c2294bac82ce"), new DateTime(2024, 3, 19, 21, 31, 13, 457, DateTimeKind.Utc).AddTicks(5380), false, "Health" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "CreateDate", "IsDelete", "Name", "ParentId", "Priority" },
-                values: new object[] { new Guid("67d1f935-eb78-4c73-94d2-b770b027e586"), new DateTime(2024, 3, 17, 12, 5, 58, 341, DateTimeKind.Utc).AddTicks(900), false, "Elektorinik", new Guid("00000000-0000-0000-0000-000000000000"), 1 });
+                values: new object[] { new Guid("71fd3adf-5968-4dc1-81a9-743eefaf5c11"), new DateTime(2024, 3, 19, 21, 31, 13, 458, DateTimeKind.Utc).AddTicks(4400), false, "Elektorinik", new Guid("00000000-0000-0000-0000-000000000000"), 1 });
 
             migrationBuilder.InsertData(
                 table: "Details",
                 columns: new[] { "Id", "CategoryId", "CreateDate", "Description", "IsDelete", "Title" },
-                values: new object[] { new Guid("e4ba7743-fe09-4cdc-9423-d8b9c6b9f15d"), new Guid("67d1f935-eb78-4c73-94d2-b770b027e586"), new DateTime(2024, 3, 17, 12, 5, 58, 341, DateTimeKind.Utc).AddTicks(9960), "Aperiam facilis voluptate quis eos.", false, "repudiandae-odio-voluptatem" });
+                values: new object[] { new Guid("29805ff0-264f-4108-bfa8-cc4e21b112c4"), new Guid("71fd3adf-5968-4dc1-81a9-743eefaf5c11"), new DateTime(2024, 3, 19, 21, 31, 13, 459, DateTimeKind.Utc).AddTicks(3750), "Ea molestiae rerum aliquid omnis.", false, "temporibus-eligendi-numquam" });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "BrandId", "CreateDate", "Description", "Discount", "IsDelete", "Price", "Title" },
-                values: new object[] { new Guid("e368379c-2b08-4012-928b-c40a1eb3b1cc"), new Guid("fd821694-8142-4cee-b9a6-e9ff92b2ff85"), new DateTime(2024, 3, 17, 12, 5, 58, 342, DateTimeKind.Utc).AddTicks(8600), "Andy shoes are designed to keeping in mind durability as well as trends, the most stylish range of shoes & sandals", 3.563187886451690m, false, 9913.86m, "Tasty Steel Tuna" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CategoryProduct_ProductsId",
-                table: "CategoryProduct",
-                column: "ProductsId");
+                values: new object[] { new Guid("35153da3-c3f3-4f35-b2dd-b44824797214"), new Guid("6d7689c4-ace2-4c36-9bf9-c2294bac82ce"), new DateTime(2024, 3, 19, 21, 31, 13, 460, DateTimeKind.Utc).AddTicks(5330), "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit", 0.7102470764406630m, false, 5703.30m, "Small Cotton Tuna" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Details_CategoryId",
                 table: "Details",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductCategories_CategoryId",
+                table: "ProductCategories",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
@@ -151,16 +151,16 @@ namespace ECommerce.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CategoryProduct");
-
-            migrationBuilder.DropTable(
                 name: "Details");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "ProductCategories");
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Brands");

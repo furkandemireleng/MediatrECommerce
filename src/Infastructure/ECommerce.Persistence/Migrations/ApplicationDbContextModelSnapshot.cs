@@ -22,21 +22,6 @@ namespace ECommerce.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.Property<Guid>("CategoriesId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ProductsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("CategoriesId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("CategoryProduct");
-                });
-
             modelBuilder.Entity("ECommerce.Domain.Entities.Brand", b =>
                 {
                     b.Property<Guid>("Id")
@@ -61,10 +46,10 @@ namespace ECommerce.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fd821694-8142-4cee-b9a6-e9ff92b2ff85"),
-                            CreateDate = new DateTime(2024, 3, 17, 12, 5, 58, 340, DateTimeKind.Utc).AddTicks(1410),
+                            Id = new Guid("6d7689c4-ace2-4c36-9bf9-c2294bac82ce"),
+                            CreateDate = new DateTime(2024, 3, 19, 21, 31, 13, 457, DateTimeKind.Utc).AddTicks(5380),
                             IsDelete = false,
-                            Name = "Beauty & Outdoors"
+                            Name = "Health"
                         });
                 });
 
@@ -97,8 +82,8 @@ namespace ECommerce.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("67d1f935-eb78-4c73-94d2-b770b027e586"),
-                            CreateDate = new DateTime(2024, 3, 17, 12, 5, 58, 341, DateTimeKind.Utc).AddTicks(900),
+                            Id = new Guid("71fd3adf-5968-4dc1-81a9-743eefaf5c11"),
+                            CreateDate = new DateTime(2024, 3, 19, 21, 31, 13, 458, DateTimeKind.Utc).AddTicks(4400),
                             IsDelete = false,
                             Name = "Elektorinik",
                             ParentId = new Guid("00000000-0000-0000-0000-000000000000"),
@@ -138,12 +123,12 @@ namespace ECommerce.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e4ba7743-fe09-4cdc-9423-d8b9c6b9f15d"),
+                            Id = new Guid("29805ff0-264f-4108-bfa8-cc4e21b112c4"),
                             CategoryId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            CreateDate = new DateTime(2024, 3, 17, 12, 5, 58, 341, DateTimeKind.Utc).AddTicks(9960),
-                            Description = "Aperiam facilis voluptate quis eos.",
+                            CreateDate = new DateTime(2024, 3, 19, 21, 31, 13, 459, DateTimeKind.Utc).AddTicks(3750),
+                            Description = "Ea molestiae rerum aliquid omnis.",
                             IsDelete = false,
-                            Title = "repudiandae-odio-voluptatem"
+                            Title = "temporibus-eligendi-numquam"
                         });
                 });
 
@@ -185,30 +170,30 @@ namespace ECommerce.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e368379c-2b08-4012-928b-c40a1eb3b1cc"),
+                            Id = new Guid("35153da3-c3f3-4f35-b2dd-b44824797214"),
                             BrandId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            CreateDate = new DateTime(2024, 3, 17, 12, 5, 58, 342, DateTimeKind.Utc).AddTicks(8600),
-                            Description = "Andy shoes are designed to keeping in mind durability as well as trends, the most stylish range of shoes & sandals",
-                            Discount = 3.563187886451690m,
+                            CreateDate = new DateTime(2024, 3, 19, 21, 31, 13, 460, DateTimeKind.Utc).AddTicks(5330),
+                            Description = "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit",
+                            Discount = 0.7102470764406630m,
                             IsDelete = false,
-                            Price = 9913.86m,
-                            Title = "Tasty Steel Tuna"
+                            Price = 5703.30m,
+                            Title = "Small Cotton Tuna"
                         });
                 });
 
-            modelBuilder.Entity("CategoryProduct", b =>
+            modelBuilder.Entity("ECommerce.Domain.Entities.ProductCategory", b =>
                 {
-                    b.HasOne("ECommerce.Domain.Entities.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
 
-                    b.HasOne("ECommerce.Domain.Entities.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("ProductId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("ECommerce.Domain.Entities.Detail", b =>
@@ -233,9 +218,35 @@ namespace ECommerce.Persistence.Migrations
                     b.Navigation("Brand");
                 });
 
+            modelBuilder.Entity("ECommerce.Domain.Entities.ProductCategory", b =>
+                {
+                    b.HasOne("ECommerce.Domain.Entities.Category", "Category")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ECommerce.Domain.Entities.Product", "Product")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("ECommerce.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Details");
+
+                    b.Navigation("ProductCategories");
+                });
+
+            modelBuilder.Entity("ECommerce.Domain.Entities.Product", b =>
+                {
+                    b.Navigation("ProductCategories");
                 });
 #pragma warning restore 612, 618
         }
