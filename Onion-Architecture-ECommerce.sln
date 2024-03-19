@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Persistence", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Api", "src\Presentation\ECommerce.Api\ECommerce.Api.csproj", "{38A792C3-AD39-4656-83DF-932905D9858A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapper", "src\Core\Mapper\Mapper.csproj", "{F634565D-4AD4-4FEC-A033-20737AC08ED0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,7 @@ Global
 		{EC648818-4DF6-4F1F-8A80-B95EC8AF2150} = {5C4C4267-4C79-486F-A7CA-25FDF7940945}
 		{1D8B62C5-2D21-463C-855D-47DEE66C2B64} = {5C4C4267-4C79-486F-A7CA-25FDF7940945}
 		{38A792C3-AD39-4656-83DF-932905D9858A} = {2D628518-C366-4687-9BE6-8663103994C1}
+		{F634565D-4AD4-4FEC-A033-20737AC08ED0} = {0D47946A-B70A-4063-9056-E4984BC47929}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C4B22F00-FB16-40E3-8A61-3FC1BCB024B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -58,5 +61,9 @@ Global
 		{38A792C3-AD39-4656-83DF-932905D9858A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38A792C3-AD39-4656-83DF-932905D9858A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38A792C3-AD39-4656-83DF-932905D9858A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F634565D-4AD4-4FEC-A033-20737AC08ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F634565D-4AD4-4FEC-A033-20737AC08ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F634565D-4AD4-4FEC-A033-20737AC08ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F634565D-4AD4-4FEC-A033-20737AC08ED0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
