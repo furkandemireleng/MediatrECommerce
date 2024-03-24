@@ -1,5 +1,6 @@
 using ECommerce.Application.Interfaces.Repositories;
 using ECommerce.Application.Interfaces.Repositories.UnitOfWorks;
+using ECommerce.Domain.Entities;
 using ECommerce.Persistence.Context;
 using ECommerce.Persistence.Repositories;
 using ECommerce.Persistence.UnitOfWorks;
@@ -30,5 +31,19 @@ public static class ServiceRegistration
 
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+        services.AddIdentityCore<User>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedEmail = true;
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                //options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
+            }).AddRoles<Role>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
     }
 }

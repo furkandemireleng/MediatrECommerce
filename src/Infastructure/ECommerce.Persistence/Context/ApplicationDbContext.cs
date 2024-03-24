@@ -1,19 +1,16 @@
 using System.Reflection;
 using ECommerce.Domain.Entities;
 using ECommerce.Persistence.Configuration;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Persistence.Context;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
 {
-    public ApplicationDbContext()
-    {
-    }
+    public ApplicationDbContext() { }
 
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-    {
-    }
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
 
     public DbSet<Brand> Brands { get; set; }

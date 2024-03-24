@@ -13,7 +13,7 @@ public class BrandConfiguration : IEntityTypeConfiguration<Brand>
         builder.Property(x => x.Name).HasMaxLength(256);
 
         Faker faker = new Faker("en");
-
+    
         Brand brand1 = new Brand()
         {
             Name = faker.Commerce.Department(),
@@ -21,7 +21,8 @@ public class BrandConfiguration : IEntityTypeConfiguration<Brand>
             Id = Guid.NewGuid(),
             IsDelete = false
         };
-
+    
         builder.HasData(brand1);
+        
     }
 }
