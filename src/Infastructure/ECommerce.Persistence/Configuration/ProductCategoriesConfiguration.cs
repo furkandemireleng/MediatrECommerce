@@ -12,7 +12,7 @@ public class ProductCategoriesConfiguration : IEntityTypeConfiguration<ProductCa
         builder.HasKey(x => new { x.ProductId, x.CategoryId });
 
         builder.HasOne(p => p.Product)
-            .WithMany(pc => pc.ProductCategories)
+            .WithMany(pc => pc.ProductCategoryCategories)
             .HasForeignKey(p => p.ProductId).OnDelete(DeleteBehavior.Cascade);
 
 
@@ -20,4 +20,4 @@ public class ProductCategoriesConfiguration : IEntityTypeConfiguration<ProductCa
             .WithMany(pc => pc.ProductCategories)
             .HasForeignKey(p => p.CategoryId).OnDelete(DeleteBehavior.Cascade);
     }
-} 
+}
