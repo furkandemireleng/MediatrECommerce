@@ -1,6 +1,19 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 namespace ECommerce.Application.Exceptions;
 
-public class ExceptionModel
+public class ExceptionModel : ErrorStatusCode
 {
-    
+    public IEnumerable<string> Errors { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this);
+    }
+}
+
+public class ErrorStatusCode
+{
+    public int StatusCode { get; set; }
 }

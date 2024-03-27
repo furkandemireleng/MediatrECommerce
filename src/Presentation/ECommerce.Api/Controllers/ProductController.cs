@@ -1,32 +1,54 @@
+using ECommerce.Application.Features.Products.Command.CreateProduct;
+using ECommerce.Application.Features.Products.Command.DeleteProduct;
+using ECommerce.Application.Features.Products.Command.UpdateProduct;
+using ECommerce.Application.Features.Products.Queries.GetAllProducts;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 public class ProductController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+    private readonly IMediator _mediator;
 
-    private readonly ILogger<ProductController> _logger;
 
-    public ProductController(ILogger<ProductController> logger)
+    public ProductController(IMediator mediator)
     {
-        _logger = logger;
+        _mediator = mediator;
     }
 
-    [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
+    [HttpGet]
+    public async Task<IActionResult> GetAllProducts()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+        var response = await _mediator.Send(new GetAllProductsQueryRequest());
+
+         return Ok(response);
+        //throw new Exception();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateProduct(CreateProductCommandRequest request)
+    {
+        await _mediator.Send(request);
+
+        return Ok();
+    }
+    
+    [HttpPut]
+    public async Task<IActionResult> UpdateProduct(UpdateProductCommandRequest request)
+    {
+        await _mediator.Send(request);
+
+        return Ok();
+    }
+    
+    [HttpDelete]
+    public async Task<IActionResult> DeleteProduct(DeleteProductCommandRequest request)
+    {
+        await _mediator.Send(request);
+
+        return Ok();
     }
 }

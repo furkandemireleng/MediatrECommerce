@@ -4,12 +4,12 @@ namespace ECommerce.Domain.Entities;
 
 public class Category : BaseEntity
 {
-    public  Guid ParentId { get; set; }
+    public Guid ParentId { get; set; }
     public  string Name { get; set; }
     public  int Priority { get; set; }
 
     public ICollection<Detail> Details { get; set; } // each category can have multiple details
-    public ICollection<ProductCategory> ProductCategoryCategories { get; set; } // each category can have multiple products
+    public ICollection<ProductCategory> ProductCategories { get; set; } // each category can have multiple products
 
 
     public Category()

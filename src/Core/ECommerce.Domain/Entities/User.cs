@@ -1,6 +1,12 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace ECommerce.Domain.Entities;
 
-public class User
+public class User : IdentityUser<Guid>
 {
+    public string FullName { get; set; }
     
+    public string? RefreshToken { get; set; }
+    
+    public DateTime? RefreshTokenExpireTime { get; set; }
 }

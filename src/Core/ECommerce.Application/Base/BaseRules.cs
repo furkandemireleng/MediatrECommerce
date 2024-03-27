@@ -1,6 +1,6 @@
 namespace ECommerce.Application.Base;
 
-public abstract class BaseRule
+public abstract class BaseRules
 {
     
 }

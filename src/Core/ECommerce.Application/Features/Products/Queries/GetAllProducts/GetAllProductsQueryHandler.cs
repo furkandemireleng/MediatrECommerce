@@ -24,11 +24,12 @@ public class
         CancellationToken cancellationToken)
     {
         var products = await _unitOfWork.GetReadRepository<Product>()
-            .GetAllAsync(include: x => x.Include(b => b.Brand));
+            .GetAllAsync(p => p.IsDelete == false,
+                include: x => x.Include(b => b.Brand));
 
         var brand = _mapper.Map<BrandDto, Brand>(new Brand());
-        
-        
+
+
         var map = _mapper.Map<GetAllProductsQueryResponse, Product>(products);
 
         foreach (var item in map)

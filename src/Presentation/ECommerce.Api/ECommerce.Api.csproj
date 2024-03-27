@@ -25,6 +25,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Core\Mapper\Mapper.csproj" />
+      <ProjectReference Include="..\..\Infastructure\ECommerce.Infastructure\ECommerce.Infastructure.csproj" />
       <ProjectReference Include="..\..\Infastructure\ECommerce.Persistence\ECommerce.Persistence.csproj" />
     </ItemGroup>
 

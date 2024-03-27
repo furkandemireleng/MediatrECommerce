@@ -1,48 +1,38 @@
-using System.Globalization;
-using System.Reflection;
-using System.Runtime.Serialization;
-using ECommerce.Application.Base;
-using ECommerce.Application.Beheviors;
-using ECommerce.Application.Exceptions;
-using ECommerce.Application.Features.Products.Rules;
-using FluentValidation;
-using MediatR;
+using System.Text;
+using ECommerce.Application.Interfaces.Tokens;
+using ECommerce.Infastructure.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
-namespace ECommerce.Application;
+namespace ECommerce.Infastructure;
 
 public static class ServiceRegistration
 {
-    public static void AddApplication(this IServiceCollection serviceCollection)
+    public static void AddInfastructure(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
-        var assembly = Assembly.GetExecutingAssembly();
+        serviceCollection.Configure<TokenSettings>(configuration.GetSection("JWT"));
+        serviceCollection.AddTransient<ITokenService, TokenService>();
 
-        serviceCollection.AddTransient<ExcetionMiddleware>();
-
-        // serviceCollection.AddTransient<ProductRules>(); bu da bir secenek ama tek tek eklerdik
-
-        serviceCollection.AddRulesFromAssemblyContaining(assembly, typeof(BaseRules));
-
-        serviceCollection.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assembly));
-
-        serviceCollection.AddValidatorsFromAssembly(assembly);
-
-        ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("tr");
-
-        serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehevior<,>));
-    }
-
-    private static IServiceCollection AddRulesFromAssemblyContaining(
-        this IServiceCollection serviceCollection,
-        Assembly assembly,
-        Type type)
-    {
-        var types = assembly.GetTypes().Where(t => t.IsSubclassOf(type) && type != t).ToList();
-        foreach (var item in types)
+        serviceCollection.AddAuthentication(opt =>
         {
-            serviceCollection.AddTransient(item);
-        }
-
-        return serviceCollection;
+            opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
+        {
+            opt.SaveToken = true;
+            opt.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"])),
+                ValidateLifetime = false,
+                ValidIssuer = configuration["JWT:Issuer"],
+                ValidAudience = configuration["JWT:Audience"],
+                ClockSkew = TimeSpan.Zero
+            };
+        });
     }
 }

@@ -1,6 +1,12 @@
 namespace ECommerce.Application.Base;
 
-public class BaseException
+public class BaseException : ApplicationException
 {
-    
+    public BaseException()
+    {
+    }
+
+    public BaseException(string message) : base(message)
+    {
+    }
 }
