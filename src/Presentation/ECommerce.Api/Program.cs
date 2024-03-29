@@ -38,7 +38,7 @@ builder.Services.AddSwaggerGen(opt =>
         In = ParameterLocation.Header,
         Description = "Bearer ekle"
     });
-    
+
     opt.AddSecurityRequirement(new OpenApiSecurityRequirement()
     {
         {
@@ -54,6 +54,10 @@ builder.Services.AddSwaggerGen(opt =>
         }
     });
 });
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 
 var app = builder.Build();
 
