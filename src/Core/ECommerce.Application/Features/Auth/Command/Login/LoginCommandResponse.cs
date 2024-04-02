@@ -1,0 +1,9 @@
+namespace ECommerce.Application.Features.Auth.Command.Login;
+
+public class LoginCommandResponse
+{
+    public string Token { get; set; }
+    public string RefreshToken { get; set; }
+    public string AccessToken { get; set; }
+    public DateTime ExpireTime { get; set; }
+}
