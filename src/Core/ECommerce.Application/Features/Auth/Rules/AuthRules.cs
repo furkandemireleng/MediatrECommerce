@@ -14,4 +14,14 @@ public class AuthRules :  BaseRules
             return Task.CompletedTask;
         }
     }
+
+    public Task EmailOrPasswordBeInvalid(User? user, bool chechkPassword)
+    {
+        if (user is null || !chechkPassword)
+        {
+            throw new EmailOrPasswordBeInvalidException();
+        }
+
+        return Task.CompletedTask;
+    }
 }
