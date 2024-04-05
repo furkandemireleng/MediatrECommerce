@@ -3,11 +3,13 @@ using ECommerce.Application.Features.Products.Command.DeleteProduct;
 using ECommerce.Application.Features.Products.Command.UpdateProduct;
 using ECommerce.Application.Features.Products.Queries.GetAllProducts;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("[controller]/[action]")]
 public class ProductController : ControllerBase
 {
@@ -24,7 +26,7 @@ public class ProductController : ControllerBase
     {
         var response = await _mediator.Send(new GetAllProductsQueryRequest());
 
-         return Ok(response);
+        return Ok(response);
         //throw new Exception();
     }
 
@@ -35,7 +37,7 @@ public class ProductController : ControllerBase
 
         return Ok();
     }
-    
+
     [HttpPut]
     public async Task<IActionResult> UpdateProduct(UpdateProductCommandRequest request)
     {
@@ -43,7 +45,7 @@ public class ProductController : ControllerBase
 
         return Ok();
     }
-    
+
     [HttpDelete]
     public async Task<IActionResult> DeleteProduct(DeleteProductCommandRequest request)
     {

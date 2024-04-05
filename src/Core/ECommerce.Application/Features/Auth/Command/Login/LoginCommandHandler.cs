@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 using ECommerce.Application.Base;
 using ECommerce.Application.Features.Auth.Rules;
 using ECommerce.Application.Interfaces.AutoMapper;
@@ -45,9 +46,12 @@ public class LoginCommandHandler : BaseHandler, IRequestHandler<LoginCommandRequ
         _ = int.TryParse(_configuration["JWT:RefreshTokenValidityInDays"], out int refreshTokenValidityInDays);
 
         user.RefreshToken = refreshToken;
-        user.RefreshTokenExpireTime = DateTime.Now.AddDays(refreshTokenValidityInDays);
+        user.RefreshTokenExpireTime = DateTime.UtcNow.AddDays(refreshTokenValidityInDays);
+        
+
 
         await _userManager.UpdateAsync(user);
+
         await _userManager.UpdateSecurityStampAsync(user);
 
         string _token = new JwtSecurityTokenHandler().WriteToken(token);
