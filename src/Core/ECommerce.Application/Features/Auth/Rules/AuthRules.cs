@@ -35,5 +35,14 @@ public class AuthRules :  BaseRules
         return Task.CompletedTask;
     }
     
+    public Task EmailAddressShoulBeValid(User? user)
+    {
+        if (user is null )
+        {
+            throw new EmailAddressShoulBeValidException();
+        }
+        return Task.CompletedTask;
+    }
+    
     
 }
