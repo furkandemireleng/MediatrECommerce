@@ -5,13 +5,13 @@ namespace ECommerce.Application.Beheviors;
 
 public class RedisCacheBehevior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 {
-    private readonly IRedisCacheService _redisCacheService;
-    
+    private readonly IRedisCacheService redisCacheService;
+
     public RedisCacheBehevior(IRedisCacheService redisCacheService)
     {
-
-        _redisCacheService = redisCacheService;
+        this.redisCacheService = redisCacheService;
     }
+
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         if (request is ICacheableQuery query)
@@ -19,17 +19,13 @@ public class RedisCacheBehevior<TRequest, TResponse> : IPipelineBehavior<TReques
             var cacheKey = query.CacheKey;
             var cacheTime = query.CacheTime;
 
-            var cachedData = await _redisCacheService.GetAsync<TResponse>(cacheKey);
+            var cachedData = await redisCacheService.GetAsync<TResponse>(cacheKey);
             if (cachedData is not null)
-            {
                 return cachedData;
-            }
 
             var response = await next();
             if (response is not null)
-            {
-                await _redisCacheService.SetAsync(cacheKey, response, DateTime.Now.AddMinutes(cacheTime));
-            }
+                await redisCacheService.SetAsync(cacheKey, response, DateTime.Now.AddMinutes(cacheTime));
 
             return response;
         }

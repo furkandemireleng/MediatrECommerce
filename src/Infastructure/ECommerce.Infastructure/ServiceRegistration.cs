@@ -1,6 +1,9 @@
 using System.Text;
+using ECommerce.Application.Interfaces.RedisCache;
 using ECommerce.Application.Interfaces.Tokens;
+using ECommerce.Infastructure.RedisCache;
 using ECommerce.Infastructure.Tokens;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,14 +13,17 @@ namespace ECommerce.Infastructure;
 
 public static class ServiceRegistration
 {
-    public static void AddInfastructure(this IServiceCollection serviceCollection, IConfiguration configuration)
+    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        serviceCollection.Configure<TokenSettings>(configuration.GetSection("JWT"));
-        serviceCollection.AddTransient<ITokenService, TokenService>();
+        services.Configure<TokenSettings>(configuration.GetSection("JWT"));
+        services.AddTransient<ITokenService, TokenService>();
 
-        serviceCollection.AddAuthentication(opt =>
+        services.Configure<RedisCacheSettings>(configuration.GetSection("RedisCacheSettings"));
+        services.AddTransient<IRedisCacheService, RedisCacheService>();
+
+        services.AddAuthentication(opt =>
         {
-            opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
         {
@@ -34,5 +40,13 @@ public static class ServiceRegistration
                 ClockSkew = TimeSpan.Zero
             };
         });
+
+        services.AddStackExchangeRedisCache(opt =>
+        {
+            opt.Configuration = configuration["RedisCacheSettings:ConnectionString"];
+            opt.InstanceName = configuration["RedisCacheSettings:InstanceName"];
+        });
     }
+
 }
+

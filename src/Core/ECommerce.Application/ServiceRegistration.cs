@@ -30,6 +30,9 @@ public static class ServiceRegistration
         ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("tr");
 
         serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehevior<,>));
+        
+        serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(RedisCacheBehevior<,>));
+
     }
 
     private static IServiceCollection AddRulesFromAssemblyContaining(
